@@ -1,73 +1,106 @@
-# React + TypeScript + Vite
+# EduLoan - Decentralized Education Loan Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A decentralized education loan platform built on the Mantle Sepolia Testnet. Students can apply for education loans, and administrators can manage loan approvals, disbursements, and track repayments.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Apply for Loans** - Students can submit loan applications with specified amounts and purposes
+- **Loan Management** - View all your loans, track status, and make payments
+- **Admin Dashboard** - Approve/reject loans, disburse funds, manage contract balance
+- **Wallet Integration** - Connect with popular wallets via RainbowKit
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend**: React 19, TypeScript, Tailwind CSS
+- **Build Tool**: Vite
+- **Web3**: Wagmi, Viem, RainbowKit
+- **Blockchain**: Mantle Sepolia Testnet
 
-## Expanding the ESLint configuration
+## Smart Contract
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Address**: `0xaC6173752c2BDDde630091A3FEe9b60Aef0B4659`
+- **Network**: Mantle Sepolia Testnet (Chain ID: 5003)
+- **Explorer**: https://sepolia.mantlescan.xyz
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Getting Started
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Prerequisites
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Node.js 18+
+- A Web3 wallet (MetaMask, etc.)
+- MNT tokens on Mantle Sepolia Testnet
+
+### Installation
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd eduloan-mantle-ui
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Available Scripts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Build for production |
+| `npm run preview` | Preview production build |
+| `npm run lint` | Run ESLint |
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Project Structure
+
 ```
+src/
+├── components/
+│   ├── layout/      # Header, Footer, Layout
+│   ├── loan/        # LoanCard, LoanForm, PaymentForm
+│   ├── stats/       # StatsCard
+│   └── ui/          # Button, Card, Input, Badge, Spinner
+├── config/
+│   ├── chains.ts    # Mantle Sepolia chain config
+│   ├── contracts.ts # Contract address and ABI
+│   └── wagmi.ts     # Wagmi configuration
+├── hooks/
+│   ├── useAdmin.ts       # Admin functions hook
+│   ├── useEduLoan.ts     # Read contract data hook
+│   └── useEduLoanWrite.ts # Write contract data hook
+├── lib/
+│   ├── format.ts    # Formatting utilities
+│   └── utils.ts     # General utilities
+├── pages/
+│   ├── Home.tsx     # Landing page
+│   ├── ApplyLoan.tsx # Loan application form
+│   ├── MyLoans.tsx  # User's loans list
+│   ├── LoanDetail.tsx # Individual loan details
+│   └── Admin.tsx    # Admin dashboard
+└── types/
+    └── index.ts     # TypeScript types
+```
+
+## Loan Status Flow
+
+1. **Pending** - Loan application submitted, awaiting review
+2. **Approved** - Loan approved by admin, awaiting disbursement
+3. **Active** - Funds disbursed, repayment period started
+4. **Repaid** - Loan fully repaid
+5. **Defaulted** - Loan past deadline without full repayment
+6. **Rejected** - Loan application rejected by admin
+
+## Deployment
+
+The app is configured for Vercel deployment with SPA routing support via `vercel.json`.
+
+```bash
+# Deploy to Vercel
+vercel
+```
+
+## License
+
+MIT
